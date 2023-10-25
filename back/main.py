@@ -5,7 +5,7 @@ import jwt
 import datetime
 from functools import wraps
 from flask_migrate import Migrate
-from models import User, Expense, Category
+from models import user, expense, category
 
 app = Flask(__name__)
 app.config['SECRET_KEY'] = 'secret'
@@ -25,7 +25,7 @@ def token_required(f):
 
         try:
             data = jwt.decode(token, app.config['SECRET_KEY'], algorithms=['HS256'])
-            current_user = User.query.filter_by(user_ID=data['user_ID']).first()
+            current_user = user.query.filter_by(user_ID=data['user_ID']).first()
         except:
             return jsonify({'message': 'Token is invalid!'}), 401
 
@@ -37,12 +37,12 @@ def token_required(f):
 @app.route('/register', methods=['POST'])
 def register():
     data = request.get_json()
-    existing_user = User.query.filter_by(user_name=data['user_name']).first()
+    existing_user = user.query.filter_by(user_name=data['user_name']).first()
 
     if existing_user:
         return jsonify({'message': 'Username already exists!'}), 400
 
-    new_user = User(
+    new_user = user(
         first_name=data['first_name'],
         last_name=data['last_name'],
         user_name=data['user_name'],
@@ -58,7 +58,7 @@ def register():
 @app.route('/login', methods=['POST'])
 def login():
     auth = request.get_json()
-    user = User.query.filter_by(user_name=auth['user_name']).first()
+    user = user.query.filter_by(user_name=auth['user_name']).first()
 
     if user and user.check_password(auth['password']):
         token = jwt.encode({'user_ID': user.user_ID, 'exp': datetime.datetime.utcnow() + datetime.timedelta(hours=1)},
@@ -80,16 +80,16 @@ def show_all_transaction():
     trans_list = []
 
     # Assuming you want to retrieve transactions from the database
-    expenses = Expense.query.all()
+    expenses = expense.query.all()
 
-    for expense in expenses:
+    for expens in expenses:
         trans_list.append({
-            "id": expense.expense_ID,
-            "date": expense.date.strftime("%m/%d/%Y"),
+            "id": expens.expense_ID,
+            "date": expens.date.strftime("%m/%d/%Y"),
             "method": "cash",  # Implement method in db
-            "category": expense.category,
-            "description": expense.description,
-            "amount": float(expense.amount),
+            "category": expens.category,
+            "description": expens.description,
+            "amount": float(expens.amount),
             "currency": "$",  # Implement currency in db
             "type": False
         })
@@ -102,9 +102,9 @@ def show_all_transaction():
 def SpendingDoughnutChart():
     spending_list = []
 
-    category = Category.query.all()
+    categ = category.query.all()
 
-    for spendings in category:
+    for spendings in categ:
         spending_list.append({
             "category": spendings.category_name,
             "amount": "?"
