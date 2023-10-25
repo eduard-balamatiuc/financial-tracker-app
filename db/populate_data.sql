@@ -1,6 +1,6 @@
 -- Insert sample data into Users table
-INSERT INTO "user" ("user_ID", "user_name", "email", "password_hash")
-VALUES (1, 'user1', 'user1@example.com', 'password123');
+INSERT INTO "user" ("user_ID", "first_name", "last_name", "user_name", "email", "password_hash")
+VALUES (1, 'Ceapolino', 'Intense', 'user1', 'user1@example.com', 'password123');
 
 -- Insert sample data into Category table
 INSERT INTO "category" ("category_ID", "category_name")
