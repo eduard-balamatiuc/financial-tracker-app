@@ -1,17 +1,23 @@
 from flask import Flask, request, jsonify
-from flask_sqlalchemy import SQLAlchemy
+from db_setup import db
 from flask_bcrypt import Bcrypt
 import jwt
 import datetime
 from functools import wraps
 from flask_migrate import Migrate
-from models import user, expense, category
+from models import User, Expense, Category
+import os
+from dotenv import load_dotenv
+
+load_dotenv()
 
 app = Flask(__name__)
 app.config['SECRET_KEY'] = 'secret'
-app.config['SQLALCHEMY_DATABASE_URI'] = 'postgresql://aise:aise@123@localhost/yQuickDBD-Expanse-tracker.sql'
 
-db = SQLAlchemy(app)
+app.config['SQLALCHEMY_DATABASE_URI'] = f"postgresql://{os.environ['POSTGRES_USER']}:{os.environ['POSTGRES_PASSWORD']}@localhost:{os.environ['POSTGRES_PORT']}/{os.environ['POSTGRES_DB']}"
+
+
+db = db.init_app(app)
 bcrypt = Bcrypt(app)
 migrate = Migrate(app, db)
 
@@ -25,7 +31,7 @@ def token_required(f):
 
         try:
             data = jwt.decode(token, app.config['SECRET_KEY'], algorithms=['HS256'])
-            current_user = user.query.filter_by(user_ID=data['user_ID']).first()
+            current_user = User.query.filter_by(user_ID=data['user_ID']).first()
         except:
             return jsonify({'message': 'Token is invalid!'}), 401
 
@@ -37,12 +43,12 @@ def token_required(f):
 @app.route('/register', methods=['POST'])
 def register():
     data = request.get_json()
-    existing_user = user.query.filter_by(user_name=data['user_name']).first()
+    existing_user = User.query.filter_by(user_name=data['user_name']).first()
 
     if existing_user:
         return jsonify({'message': 'Username already exists!'}), 400
 
-    new_user = user(
+    new_user = User(
         first_name=data['first_name'],
         last_name=data['last_name'],
         user_name=data['user_name'],
@@ -58,7 +64,7 @@ def register():
 @app.route('/login', methods=['POST'])
 def login():
     auth = request.get_json()
-    user = user.query.filter_by(user_name=auth['user_name']).first()
+    user = User.query.filter_by(user_name=auth['user_name']).first()
 
     if user and user.check_password(auth['password']):
         token = jwt.encode({'user_ID': user.user_ID, 'exp': datetime.datetime.utcnow() + datetime.timedelta(hours=1)},
@@ -80,7 +86,7 @@ def show_all_transaction():
     trans_list = []
 
     # Assuming you want to retrieve transactions from the database
-    expenses = expense.query.all()
+    expenses = Expense.query.all()
 
     for expens in expenses:
         trans_list.append({
@@ -102,7 +108,7 @@ def show_all_transaction():
 def SpendingDoughnutChart():
     spending_list = []
 
-    categ = category.query.all()
+    categ = Category.query.all()
 
     for spendings in categ:
         spending_list.append({
