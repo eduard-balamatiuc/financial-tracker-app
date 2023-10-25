@@ -5,6 +5,7 @@ import jwt
 import datetime
 from functools import wraps
 from flask_migrate import Migrate
+from models import User, Expense, Category
 
 app = Flask(__name__)
 app.config['SECRET_KEY'] = 'secret'
@@ -13,36 +14,6 @@ app.config['SQLALCHEMY_DATABASE_URI'] = 'postgresql://aise:aise@123@localhost/yQ
 db = SQLAlchemy(app)
 bcrypt = Bcrypt(app)
 migrate = Migrate(app, db)
-
-
-class User(db.Model):
-    user_ID = db.Column(db.Integer, primary_key=True)
-    first_name = db.Column(db.String(50), nullable=False)
-    last_name = db.Column(db.String(50), nullable=False)
-    user_name = db.Column(db.String(50), unique=True, nullable=False)
-    email = db.Column(db.String(100), unique=True, nullable=False)
-    password_hash = db.Column(db.String(255), nullable=False)
-
-    def set_password(self, password):
-        self.password_hash = bcrypt.generate_password_hash(password).decode('utf-8')
-
-    def check_password(self, password):
-        return bcrypt.check_password_hash(self.password_hash, password)
-
-
-class Expense(db.Model):
-    expenses_ID = db.Column(db.Integer, primary_key=True)
-    user_ID = db.Column(db.Integer, db.ForeignKey('user.user_ID'), nullable=False)
-    amount = db.Column(db.Numeric(precision=10, scale=2), nullable=False)
-    category = db.Column(db.String(50), db.ForeignKey('category.category_name'), nullable=False)
-    description = db.Column(db.String(255), nullable=False)
-    date = db.Column(db.Date, nullable=False)
-
-
-class Category(db.Model):
-    category_ID = db.Column(db.Integer, primary_key=True)
-    category_name = db.Column(db.String(50), unique=True, nullable=False)
-
 
 def token_required(f):
     @wraps(f)
@@ -113,7 +84,7 @@ def show_all_transaction():
 
     for expense in expenses:
         trans_list.append({
-            "id": expense.expenses_ID,
+            "id": expense.expense_ID,
             "date": expense.date.strftime("%m/%d/%Y"),
             "method": "cash",  # Implement method in db
             "category": expense.category,
