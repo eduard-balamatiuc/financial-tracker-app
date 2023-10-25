@@ -9,7 +9,6 @@ from flask_wtf import FlaskForm
 import bcrypt
 from wtforms import StringField, PasswordField
 from wtforms.validators import DataRequired, Email, EqualTo
-from flask import render_template
 
 # Create a Blueprint for the user routes
 user_routes = Blueprint("user_routes", __name__)
@@ -25,9 +24,7 @@ class RegistrationForm(FlaskForm):
 @user_routes.route('/register', methods=['GET', 'POST'])
 def register():
     form = RegistrationForm()
-    print(form.data)
     data = form.data
-    print(data)
     existing_user = User.query.filter_by(user_name=data['user_name']).first()
     print(f"existing_user:", existing_user)
     if existing_user is None:
