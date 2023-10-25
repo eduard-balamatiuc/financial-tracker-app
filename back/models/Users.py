@@ -1,4 +1,5 @@
-from back.models import db, bcrypt
+from back.models import db
+import bcrypt
 
 
 class Users(db.Model):
@@ -11,5 +12,5 @@ class Users(db.Model):
         pwhash = bcrypt.hashpw(password.encode('utf8'), bcrypt.gensalt())
         self.password_hash = pwhash.decode('utf8')
 
-    def check_password(self, password):
-        return bcrypt.check_password_hash(self.password_hash, password)
+    def check_password(self, plaintext_password, hashed_password):
+        return bcrypt.checkpw(plaintext_password.encode('utf8'), hashed_password)
