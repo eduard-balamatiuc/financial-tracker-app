@@ -4,10 +4,8 @@ services:
   postgres:
     image: postgres:latest
     container_name: my_postgres
-    environment:
-      POSTGRES_DB: ${POSTGRES_DB}
-      POSTGRES_USER: ${POSTGRES_USER}
-      POSTGRES_PASSWORD: ${POSTGRES_PASSWORD}
+    env_file:
+      - ../.env  # Adjust the path to the .env file
     ports:
       - "${POSTGRES_PORT}:5432"
     volumes:
@@ -15,8 +13,6 @@ services:
       - ./init.sql:/docker-entrypoint-initdb.d/init.sql
       - ./populate_data.sql:/docker-entrypoint-initdb.d/populate_data.sql
 
-    networks:
-      - my_network
 
 volumes:
   postgres_data:
