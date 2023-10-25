@@ -1,8 +1,6 @@
 
 from flask import Blueprint, request, jsonify
-
-
-from back.models.Users import Users
+from back.models.user import User
 from back import db, app
 import jwt
 import datetime
@@ -12,6 +10,7 @@ import bcrypt
 from wtforms import StringField, PasswordField
 from wtforms.validators import DataRequired, Email, EqualTo
 from flask import render_template
+
 # Create a Blueprint for the user routes
 user_routes = Blueprint("user_routes", __name__)
 salt = b'$2b$12$6HZE54Ds61FGKBTVFUFZIO'
@@ -29,12 +28,12 @@ def register():
     print(form.data)
     data = form.data
     print(data)
-    existing_user = Users.query.filter_by(user_name=data['user_name']).first()
+    existing_user = User.query.filter_by(user_name=data['user_name']).first()
     print(f"existing_user:", existing_user)
     if existing_user is None:
         password = data['password'].encode('utf-8')
-        password_hash = Users.set_password(password)
-        new_user = Users(user_ID = 3, user_name=data['user_name'], email=data['email'], password_hash=password_hash)
+        password_hash = User.set_password(password)
+        new_user = User(user_ID = 3, user_name=data['user_name'], email=data['email'], password_hash=password_hash)
         db.session.add(new_user)
         db.session.commit()
         print('User added successfully')
@@ -51,7 +50,7 @@ def login():
         password = request.form.get('password')
         print(password)
 
-        user = Users.query.filter_by(user_name=user_name).first()
+        user = User.query.filter_by(user_name=user_name).first()
         print(user.password_hash)
         if not user:
             return jsonify({'message': 'Username does not exist!'}), 401

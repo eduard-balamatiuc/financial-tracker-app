@@ -1,5 +1,5 @@
 from flask import Blueprint, jsonify
-from back.models.Expenses import Expenses
+from back.models.expense import Expense
 
 expenses_route = Blueprint("expenses_route", __name__)
 
@@ -8,11 +8,11 @@ def show_all_transaction():
     trans_list = []
 
     # Assuming you want to retrieve transactions from the database
-    expenses = Expenses.query.all()
+    expenses = Expense.query.all()
 
     for expense in expenses:
         trans_list.append({
-            "id": expense.expenses_ID,
+            "id": expense.expense_ID,
             "p_date": expense.p_date.strftime("%m/%d/%Y"),
             "method": "cash",  # Implement method in db
             "category_ID": expense.category_ID,
