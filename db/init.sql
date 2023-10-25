@@ -1,4 +1,4 @@
-﻿CREATE TABLE "Users" (
+﻿CREATE TABLE "users" (
     "user_ID" int   NOT NULL,
     "user_name" varchar(50)   NOT NULL,
     "email" varchar(100)   NOT NULL,
@@ -14,7 +14,7 @@
     )
 );
 
-CREATE TABLE "Expenses" (
+CREATE TABLE "expenses" (
     "expenses_ID" int   NOT NULL,
     "user_ID" int   NOT NULL,
     "amount" decimal   NOT NULL,
@@ -29,7 +29,7 @@ CREATE TABLE "Expenses" (
      )
 );
 
-CREATE TABLE "Category" (
+CREATE TABLE "category" (
     "category_ID" varchar   NOT NULL,
     "category_name" varchar   NOT NULL,
     CONSTRAINT "pk_Category" PRIMARY KEY (
@@ -37,7 +37,7 @@ CREATE TABLE "Category" (
      )
 );
 
-CREATE TABLE "Payment_method" (
+CREATE TABLE "payment_method" (
     "payment_method_ID" varchar   NOT NULL,
     "c_type" varchar   NOT NULL,
     "number" decimal   NOT NULL,
@@ -47,12 +47,12 @@ CREATE TABLE "Payment_method" (
      )
 );
 
-ALTER TABLE "Expenses" ADD CONSTRAINT "fk_Expenses_user_ID" FOREIGN KEY("user_ID")
-REFERENCES "Users" ("user_ID");
+ALTER TABLE "expenses" ADD CONSTRAINT "fk_Expenses_user_ID" FOREIGN KEY("user_ID")
+REFERENCES "users" ("user_ID");
 
-ALTER TABLE "Expenses" ADD CONSTRAINT "fk_Expenses_category_ID" FOREIGN KEY("category_ID")
-REFERENCES "Category" ("category_ID");
+ALTER TABLE "expenses" ADD CONSTRAINT "fk_Expenses_category_ID" FOREIGN KEY("category_ID")
+REFERENCES "category" ("category_ID");
 
-ALTER TABLE "Expenses" ADD CONSTRAINT "fk_Expenses_payment_method_ID" FOREIGN KEY("payment_method_ID")
-REFERENCES "Payment_method" ("payment_method_ID");
+ALTER TABLE "expenses" ADD CONSTRAINT "fk_Expenses_payment_method_ID" FOREIGN KEY("payment_method_ID")
+REFERENCES "payment_method" ("payment_method_ID");
 
