@@ -14,8 +14,8 @@ from wtforms.validators import DataRequired, Email, EqualTo
 from flask import render_template
 # Create a Blueprint for the user routes
 user_routes = Blueprint("user_routes", __name__)
-
-
+salt = b'$2b$12$6HZE54Ds61FGKBTVFUFZIO'
+print(salt)
 class RegistrationForm(FlaskForm):
     user_name = StringField('Username', validators=[DataRequired()])
     email = StringField('Email', validators=[DataRequired(), Email()])
@@ -33,8 +33,7 @@ def register():
     print(f"existing_user:", existing_user)
     if existing_user is None:
         password = data['password'].encode('utf-8')
-        salt = bcrypt.gensalt(rounds=12)
-        password_hash = bcrypt.hashpw(password, salt)
+        password_hash = Users.set_password(password)
         new_user = Users(user_ID = 3, user_name=data['user_name'], email=data['email'], password_hash=password_hash)
         db.session.add(new_user)
         db.session.commit()
@@ -50,15 +49,16 @@ def login():
     if request.method == 'POST':
         user_name = request.form.get('user_name')
         password = request.form.get('password')
+        print(password)
 
         user = Users.query.filter_by(user_name=user_name).first()
         print(user.password_hash)
         if not user:
             return jsonify({'message': 'Username does not exist!'}), 401
 
-        print(user.check_password(password, user.password_hash))
+        print(check_password(password, user.password_hash))
 
-        if not user.check_password(password, user.password_hash):
+        if not check_password(password, user.password_hash):
             return jsonify({'message': 'Invalid password!'}), 401
 
         token = jwt.encode({
@@ -69,3 +69,13 @@ def login():
         return jsonify({'token': token})
 
     return render_template('login.html')
+
+
+
+def check_password(plaintext_password, stored_password_hash, salt=salt):
+    # Use the stored salt to hash the plaintext password
+    hashed_password = bcrypt.hashpw(plaintext_password.encode('utf8'), bcrypt.gensalt())
+    # Compare the generated hash with the stored hash
+    return hashed_password == stored_password_hash
+
+
