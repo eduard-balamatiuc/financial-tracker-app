@@ -12,8 +12,6 @@ services:
       - "${POSTGRES_PORT}:5432"
     volumes:
       - postgres_data:/var/lib/postgresql/data
-      - ./init.sql:/docker-entrypoint-initdb.d/init.sql
-      - ./populate_data.sql:/docker-entrypoint-initdb.d/populate_data.sql
 
     networks:
       - my_network
