@@ -7,6 +7,12 @@
     <h1>Register</h1>
     <form method="POST" action="{{ url_for('main_routes.user_routes.register') }}">
         {{ form.csrf_token }}
+        <label for="first_name">First Name</label>
+        {{ form.first_name }}
+        <br>
+        <label for="last_name">Last Name</label>
+        {{ form.last_name }}
+        <br>
         <label for="user_name">Username</label>
         {{ form.user_name }}
         <br>

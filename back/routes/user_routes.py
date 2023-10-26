@@ -14,7 +14,10 @@ from wtforms.validators import DataRequired, Email, EqualTo
 user_routes = Blueprint("user_routes", __name__)
 salt = b'$2b$12$6HZE54Ds61FGKBTVFUFZIO'
 print(salt)
+
 class RegistrationForm(FlaskForm):
+    first_name = StringField('First Name', validators=[DataRequired()])
+    last_name = StringField('Last Name', validators=[DataRequired()])
     user_name = StringField('Username', validators=[DataRequired()])
     email = StringField('Email', validators=[DataRequired(), Email()])
     password = PasswordField('Password', validators=[DataRequired(), EqualTo('confirm', message='Passwords must match')])
@@ -24,20 +27,28 @@ class RegistrationForm(FlaskForm):
 @user_routes.route('/register', methods=['GET', 'POST'])
 def register():
     form = RegistrationForm()
-    data = form.data
-    existing_user = User.query.filter_by(user_name=data['user_name']).first()
-    print(f"existing_user:", existing_user)
-    if existing_user is None:
-        password = data['password'].encode('utf-8')
-        password_hash = User.set_password(password)
-        new_user = User(user_ID = 3, user_name=data['user_name'], email=data['email'], password_hash=password_hash)
-        db.session.add(new_user)
-        db.session.commit()
-        print('User added successfully')
-    else:
-        print('User already exists')
+    if request.method == 'POST':
+        data = form.data
+        existing_user = User.query.filter_by(user_name=data['user_name']).first()
+        if existing_user is None:
+            print('data:', data)
+            password = data['password'].encode('utf-8')
+            password_hash = User.set_password(password)
+            new_user = User(
+                first_name=data['first_name'],
+                last_name=data['last_name'],
+                user_name=data['user_name'],
+                email=data['email'],
+                password_hash=password_hash
+            )
+            print(f"this is the new user: {new_user}")
+            db.session.add(new_user)
+            db.session.commit()
+            return jsonify({'message': 'User registered successfully!'}), 201
+        else:
+            return jsonify({'message': 'User already exists'}), 400
 
-    return jsonify({'message': 'User registered successfully!'}), 201
+    return render_template('register.html', form=form)
 
 
 @user_routes.route('/login', methods=['GET', 'POST'])
