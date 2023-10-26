@@ -20,36 +20,45 @@ class RegistrationForm(FlaskForm):
     last_name = StringField('Last Name', validators=[DataRequired()])
     user_name = StringField('Username', validators=[DataRequired()])
     email = StringField('Email', validators=[DataRequired(), Email()])
-    password = PasswordField('Password', validators=[DataRequired(), EqualTo('confirm', message='Passwords must match')])
-    confirm = PasswordField('Confirm Password')
+    password = PasswordField('Password', validators=[DataRequired(), EqualTo('confirm_password', message='Passwords must match')])
+    confirm_password = PasswordField('Confirm Password', validators=[DataRequired()])
 
+# write  a function to get the users from the user table from the db to checkt he connection
+@user_routes.route('/users', methods=['GET'])
+def get_users():
+    users = User.query.all()
+    results = [
+        {
+            "user_ID": user.user_ID,
+            "first_name": user.first_name,
+            "last_name": user.last_name,
+            "user_name": user.user_name,
+            "email": user.email,
+            "password_hash": user.password_hash
+        } for user in users]
 
+    return jsonify(results)
+
+# write a function to register a user and add them to the db
 @user_routes.route('/register', methods=['GET', 'POST'])
 def register():
     form = RegistrationForm()
-    if request.method == 'POST':
-        data = form.data
-        existing_user = User.query.filter_by(user_name=data['user_name']).first()
-        if existing_user is None:
-            print('data:', data)
-            password = data['password'].encode('utf-8')
-            password_hash = User.set_password(password)
-            new_user = User(
-                first_name=data['first_name'],
-                last_name=data['last_name'],
-                user_name=data['user_name'],
-                email=data['email'],
-                password_hash=password_hash
-            )
-            print(f"this is the new user: {new_user}")
-            db.session.add(new_user)
-            db.session.commit()
-            return jsonify({'message': 'User registered successfully!'}), 201
-        else:
-            return jsonify({'message': 'User already exists'}), 400
-
+    print(f'Form status: {form.validate_on_submit()}')
+    print(f'the contet of the orm: {request.form}')
+    if request.method == 'POST' and form.validate_on_submit():
+        first_name = request.form.get('first_name')
+        last_name = request.form.get('last_name')
+        user_name = request.form.get('user_name')
+        email = request.form.get('email')
+        password = request.form.get('password')
+        password_hash = bcrypt.hashpw(password.encode('utf8'), bcrypt.gensalt())
+        print(password_hash)
+        user = User(first_name, last_name, user_name, email, password_hash)
+        print(f'User: {user}')
+        db.session.add(user)
+        db.session.commit()
+        return render_template('login.html')
     return render_template('register.html', form=form)
-
 
 @user_routes.route('/login', methods=['GET', 'POST'])
 def login():

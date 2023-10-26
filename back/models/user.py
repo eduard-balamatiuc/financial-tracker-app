@@ -4,7 +4,7 @@ import bcrypt
 class User(db.Model):
     __tablename__ = 'user'
 
-    user_ID = db.Column(db.Integer, primary_key=True)
+    user_ID = db.Column(db.Integer, primary_key=True, autoincrement=True)
     first_name = db.Column(db.String(50), nullable=False)
     last_name = db.Column(db.String(50), nullable=False)
     user_name = db.Column(db.String(50), unique=True, nullable=False)
