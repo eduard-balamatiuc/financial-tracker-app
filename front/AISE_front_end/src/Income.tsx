@@ -26,7 +26,7 @@ function Income() {
     return (
         <div className='statistics-page-element'>
             <div className="statistics-page-top">
-                <p>Spendings</p>
+                <p>Income</p>
                 <select name="time-period" id="spendings-select" defaultValue={timePeriod} onChange={handleTimePeriodChange}>
                     <option value="1w">Last week</option>
                     <option value="2w">Last 2 weeks</option>

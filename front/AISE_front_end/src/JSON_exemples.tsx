@@ -114,7 +114,7 @@ export const incomeTotals = [
 export const methods = [
     {
         id: 1,
-        method: "Cash"
+        method: "Cash",
     },
     {
         id: 2,
@@ -209,6 +209,37 @@ export const savings = [
     { month: "05/23", amount: 21580 },
     { month: "06/23", amount: 22360 },
 ];
+
+export const walletContent = [
+    {
+        bank: "cash",
+        balance: 23900,
+        currency: "Lei",
+        number: 0,
+        type: "null"
+    }, 
+    {
+        bank: "Moldincombank",
+        balance: 23900,
+        currency: "Lei",
+        number: 2456,
+        type: "mastercard"
+    },
+    {
+        bank: "maib",
+        balance: 3000,
+        currency: "eur",
+        number: 2389,
+        type: "visa"
+    },
+    {
+        bank: "victoriabank",
+        balance: 3000,
+        currency: "usd",
+        number: 9874,
+        type: "amex"
+    }
+]
 
 
 

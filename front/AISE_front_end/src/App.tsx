@@ -7,6 +7,7 @@ import HistoryPage from './HistoryPage';
 import StatisticsPage from './StatisticsPage';
 import { userInfo } from './JSON_exemples';
 import SideBar from './SideBar';
+import WalletPage from './WalletPage';
 
 function App() {
   const [hasAccount, setHasAccount] = useState(true);
@@ -30,6 +31,8 @@ function App() {
             return <HistoryPage />;
         case 'statistics':
             return <StatisticsPage />;
+        case 'wallet': 
+            return <WalletPage/>
         default:
             return <HomePage />;
         }

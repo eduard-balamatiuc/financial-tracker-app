@@ -20,6 +20,7 @@ function SideBar({username, onPageChange, onClose, logOut}: SideBarProps) {
             <button className="page-link" onClick={() => changePage('home')}>Home</button>
             <button className="page-link" onClick={() => changePage('history')}>History</button>
             <button className="page-link" onClick={() => changePage('statistics')}>Statistics</button>
+            {/* <button className="page-link" onClick={() => changePage('wallet')}>Wallet</button> */}
         </div>
         <button onClick={logOut}>Log out</button>
     </div>
