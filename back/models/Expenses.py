@@ -1,5 +1,6 @@
 from back.models import db
 
+
 class Expenses(db.Model):
     expenses_ID = db.Column(db.Integer, primary_key=True)
     user_ID = db.Column(db.Integer, db.ForeignKey('user.user_ID'), nullable=False)

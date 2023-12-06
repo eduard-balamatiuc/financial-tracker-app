@@ -1,6 +1,4 @@
-
 from flask import Blueprint, request, jsonify
-
 
 from back.models.Users import Users
 from back import db, app
@@ -9,73 +7,119 @@ import datetime
 from flask import render_template
 from flask_wtf import FlaskForm
 import bcrypt
+from bcrypt import checkpw, gensalt, hashpw
 from wtforms import StringField, PasswordField
 from wtforms.validators import DataRequired, Email, EqualTo
-from flask import render_template
+from flask import render_template, redirect, url_for
+from functools import wraps
+
 # Create a Blueprint for the user routes
 user_routes = Blueprint("user_routes", __name__)
-salt = b'$2b$12$6HZE54Ds61FGKBTVFUFZIO'
-print(salt)
+
+
 class RegistrationForm(FlaskForm):
     user_name = StringField('Username', validators=[DataRequired()])
     email = StringField('Email', validators=[DataRequired(), Email()])
-    password = PasswordField('Password', validators=[DataRequired(), EqualTo('confirm', message='Passwords must match')])
+    password = PasswordField('Password',
+                             validators=[DataRequired(), EqualTo('confirm', message='Passwords must match')])
     confirm = PasswordField('Confirm Password')
 
 
-@user_routes.route('/register', methods=['GET', 'POST'])
+def token_required(f):
+    @wraps(f)
+    def decorated(*args, **kwargs):
+        token = None
+        print(request.headers)
+        if 'Authorization' in request.headers:
+            token = request.headers['Authorization'].split(" ")[1]
+        if not token:
+            return jsonify({'message': 'Token is missing!'}), 401
+
+        try:
+            data = jwt.decode(token, app.config['SECRET_KEY'])
+            current_user = Users.query.filter_by(user_ID=data['user_ID']).first()
+        except:
+            return jsonify({'message': 'Token is invalid!'}), 401
+
+        return f(current_user, *args, **kwargs)
+
+    return decorated
+
+
+@user_routes.route('/register', methods=['POST', 'GET'])
 def register():
-    form = RegistrationForm()
-    print(form.data)
-    data = form.data
-    print(data)
-    existing_user = Users.query.filter_by(user_name=data['user_name']).first()
-    print(f"existing_user:", existing_user)
-    if existing_user is None:
-        password = data['password'].encode('utf-8')
-        password_hash = Users.set_password(password)
-        new_user = Users(user_ID = 3, user_name=data['user_name'], email=data['email'], password_hash=password_hash)
+    if request.method == 'POST':
+        user_name = request.form.get('user_name')
+        email = request.form.get('email')
+        password = request.form.get('password')
+        confirm_password = request.form.get('confirm')
+
+        if password != confirm_password:
+            return jsonify({'message': 'Password and confirmation do not match'}), 400
+
+        existing_user = Users.query.filter_by(user_name=user_name).first()
+
+        if existing_user:
+            return jsonify({'message': 'User already exists'}), 400
+
+        # Hashing the password
+        pwhash = bcrypt.hashpw(password.encode('utf-8'), bcrypt.gensalt())
+        pwhash = pwhash.decode('utf-8')
+        print(pwhash)
+        # Get the last users id and then adding one to it
+        user_id = Users.query.order_by(Users.user_ID.desc()).first().user_ID + 1
+        print(user_id)
+        new_user = Users(user_ID=user_id, user_name=user_name, email=email, password_hash=pwhash)
         db.session.add(new_user)
         db.session.commit()
-        print('User added successfully')
-    else:
-        print('User already exists')
 
-    return jsonify({'message': 'User registered successfully!'}), 201
+        return jsonify({'message': 'User registered successfully!'}), 201
+    return render_template('register.html')
 
 
 @user_routes.route('/login', methods=['GET', 'POST'])
 def login():
+
     if request.method == 'POST':
+
         user_name = request.form.get('user_name')
         password = request.form.get('password')
         print(password)
-
         user = Users.query.filter_by(user_name=user_name).first()
-        print(user.password_hash)
         if not user:
             return jsonify({'message': 'Username does not exist!'}), 401
 
-        print(check_password(password, user.password_hash))
+        print(user.password_hash)
 
-        if not check_password(password, user.password_hash):
+        if not bcrypt.checkpw(password.encode('utf-8'), user.password_hash.encode('utf-8')):
             return jsonify({'message': 'Invalid password!'}), 401
 
         token = jwt.encode({
             'user_ID': user.user_ID,
             'exp': datetime.datetime.utcnow() + datetime.timedelta(minutes=30)
-        }, app.config['SECRET_KEY'], algorithm='HS256')
+        }, app.config['SECRET_KEY'])
 
-        return jsonify({'token': token})
+        print(f'Token generated: {token}')
+
+        return jsonify({'token': token.decode('utf-8')})
 
     return render_template('login.html')
 
 
+@user_routes.route('/clean', methods=['GET', 'POST'])
+def clean(current_user):
+    for user in Users.query.all():
+        if user.user_ID == 1:
+            continue
+        #db.session.delete(user)
+    #db.session.commit()
+    return jsonify({'message': 'Database cleaned!'}), 200
 
-def check_password(plaintext_password, stored_password_hash, salt=salt):
-    # Use the stored salt to hash the plaintext password
-    hashed_password = bcrypt.hashpw(plaintext_password.encode('utf8'), bcrypt.gensalt())
-    # Compare the generated hash with the stored hash
-    return hashed_password == stored_password_hash
 
+@user_routes.route('/allusers', methods=['GET'])
+@token_required
+def print_users(current_user):
+    users = Users.query.all()
+    user_list = [{'user_name': user.user_name, 'email': user.email} for user in users]
 
+    return jsonify({'users': user_list})
