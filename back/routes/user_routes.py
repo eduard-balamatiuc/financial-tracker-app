@@ -65,7 +65,7 @@ def register():
         # Hashing the password
         pwhash = bcrypt.hashpw(password.encode('utf-8'), bcrypt.gensalt())
         pwhash = pwhash.decode('utf-8')
-        print(pwhash)
+        #print(pwhash)
         # Get the last users id and then adding one to it
         user_id = Users.query.order_by(Users.user_ID.desc()).first().user_ID + 1
         print(user_id)
