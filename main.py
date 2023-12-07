@@ -1,5 +1,5 @@
 from back import app
-from routes import main_routes
+from back.routes import main_routes
 
 # Register the main_routes Blueprint
 app.register_blueprint(main_routes)
