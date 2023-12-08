@@ -1,0 +1,4 @@
+docker build -t front-end-image .   
+docker run -p 3000:3000 front-end-image
+
+first is the internal port, the second is the external port
