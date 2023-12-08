@@ -1,0 +1,1234 @@
+@import url('https://fonts.googleapis.com/css2?family=Sarpanch:wght@700&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=Goldman:wght@400;700&display=swap');
+
+$default-font: 'Goldman', sans-serif, Helvetica, Arial, sans-serif;
+$logo-font: 'Sarpanch', sans-serif, Helvetica, Arial, sans-serif;
+$default-font-size: 20px;
+$dark-background: black;
+$light-background: white;
+$dark-border: #616161;
+$dark-fill: #181818;
+
+@mixin flex-column-center-center {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+}
+
+@mixin flex-column {
+    display: flex;
+    flex-direction: column;
+}
+
+@mixin flex-center-center {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+@mixin full-width-left {
+    width: 100%;
+    text-align: left;
+}
+
+@mixin ingnore-flex-changes {
+    flex: 0 0 auto;
+}
+
+@mixin flex-center-auto {
+    display: flex;
+    align-items: center;
+}
+
+:root {
+    font-family: $default-font;
+    background-color: $dark-background;
+    font-size: 20px;
+    color: white;
+}
+
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+select {
+    appearance: none;
+    font-family: $default-font;
+    background-color: $dark-background;
+    color: white;
+    text-align-last: center;
+}
+
+#app {
+    @include flex-column;
+    height: 100vh;
+    width: 100vw;
+    padding: 0.4rem;
+}
+
+.logo {
+    background-color: transparent;
+    border: none;
+    font-family: $logo-font;
+    font-weight: 700;
+    font-size: 3.5rem;
+    height: 4rem;
+    width: 9rem;
+    color: white;
+    text-align: center;
+}
+
+.page-name {
+    height: 3rem;
+    width: 10rem;
+    font-size: 2.4rem;
+    font-weight: 400;
+}
+
+.login-signup {
+    @include flex-column-center-center;
+    height: 100%;
+    width: 100%;
+    font-family: $logo-font;
+
+    form {
+        @include flex-column-center-center;
+        width: 500px;
+        border: 1px solid $dark-border;
+        border-radius: 20px;
+        padding: 50px 30px 0;
+
+        h1 {
+            @include full-width-left;
+            font-size: 40px;
+        }
+
+        p {
+            @include full-width-left;
+            height: 30px;
+            font-size: 24px;
+            margin-top: 30px;
+            &.validation {
+                margin: 0;
+                font-size: 10px;
+                padding-left: 10px;
+
+                &.not-match {
+                    color: red;
+                }
+            }
+        }
+
+        input {
+            width: 100%;
+            height: 60px;
+            font-family: $logo-font;
+            font-size: 20px;
+            color: white;
+            background-color: $dark-border;
+            border: none;
+            border-radius: 10px;
+        }
+
+        button {
+            width: 300px;
+            height: 80px;
+            font-family: $logo-font;
+            font-size: 40px;
+            font-weight: 800;
+            margin: 60px 0;
+            color: white;
+            background-color: $dark-border;
+            border: none;
+            border-radius: 10px;
+        }
+    }
+
+    .no-account {
+        background-color: transparent;
+        color: white;
+        border: none;
+        font-family: $logo-font;
+        font-size: 20px;
+        text-decoration: underline;
+    }
+}
+
+.side-bar {
+    @include flex-column;
+    position: fixed;
+    top: 4.4rem;
+    width: 25%;
+    z-index: 10;
+    height: calc(100% - 4.4rem);
+    background-color: $dark-background;
+    padding-left: 0.5rem;
+    padding-bottom: 1rem;
+
+    p {
+        height: 1.6rem;
+        font-size: 1.6rem;
+        line-height: 1rem;
+        text-decoration: underline;
+    }
+
+    div {
+        @include flex-column;
+        justify-content: center;
+        gap: 1rem;
+        flex: 1;
+
+        button {
+            width: fit-content;
+            font-family: $default-font;
+            font-size: 2rem;
+            color: white;
+            border: none;
+            background-color: transparent;
+        }
+    }
+
+    .log-out {
+        background-color: transparent;
+        font-family: $default-font;
+        width: fit-content;
+        border: none;
+        color: #C81D11;
+        font-size: 1rem;
+        text-decoration: underline;
+        text-align: left;
+    }
+}
+
+.positive {
+    color: #079E0D;
+}
+
+.negative {
+    color: #C81D11;
+}
+
+.home-page {
+    display: flex;
+    justify-content: space-between;
+    align-items: flex-start;
+    gap: 0.5rem;
+    height: calc(100% - 4rem);
+
+    .home-page-list-container {
+        @include flex-column;
+        height: 100%;
+        width: calc(35% - 0.25rem);
+        border: 1px solid $dark-border;
+        border-radius: 1rem;
+
+        .home-page-list-top-part {
+            @include flex-center-center;
+            height: 2rem;
+            background-color: $dark-fill;
+            border-radius: 1rem 1rem 0 0;
+            border-bottom: 1px solid $dark-border;
+
+            p {
+                text-align: center;
+                &:nth-child(1), &:nth-child(3) {
+                    width: 7.5rem;
+                }
+    
+                &:nth-child(2) {
+                    flex: 1;
+                    border-left: 1px solid $dark-border;
+                    border-right: 1px solid $dark-border;
+                }
+            }
+        }
+
+        .home-page-list {
+            @include flex-column;
+            gap: 0.5rem;
+            padding: 0.5rem;
+            height: 100%;
+            border-radius: 0 0 1rem 1rem;
+            overflow-y: scroll;
+
+            &::-webkit-scrollbar {
+                display: none;
+            }
+
+            .home-page-list-element {
+                @include flex-center-center;
+                @include ingnore-flex-changes;
+                width: 100%;
+                height: 2rem;
+                border: 1px solid $dark-border;
+
+                p {
+                    text-align: center;
+
+                    &:nth-child(1) {
+                        width: 7rem;
+                    }
+
+                    &:nth-child(2) {
+                        flex: 1;
+                    }
+
+                    &:nth-child(3) {
+                        width: 5.5rem;
+                    }
+
+                    &:nth-child(4) {
+                        width: 2rem;
+                    }
+                }
+            }
+        }
+    }
+
+    .home-page-right {
+        @include flex-column;
+        width: calc(65% - 0.25rem);
+        height: 100%;
+
+        .basics {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 0.5rem;
+            justify-content: space-between;
+
+            .basic-card {
+                @include flex-center-center;
+                gap: 1rem;
+                width: calc(50% - 0.25rem);
+                height: 5rem;
+                padding: 1rem;
+                border: 1px solid $dark-border;
+                border-radius: 1rem;
+
+                .basic-icon {
+                    width: 3rem;
+                    height: 3rem;
+                    padding: 0.75rem;
+                    background-color: $dark-fill;
+                    border: 1px solid $dark-border;
+                    border-radius: 1rem;
+                }
+
+                .basic-trend {
+                    height: 3rem;
+                    width: 3rem;
+                    padding: 0.5rem;
+                }
+
+                div {
+                    flex: 1;
+
+                    h1 {
+                        font-size: 1.2rem;
+                        font-weight: 400;
+                    }
+
+                    p {
+                        font-size: 0.7rem;
+                    }
+                }
+            }
+        }
+
+        .home-page-chart-container {
+            @include flex-column;
+            height: calc(100% - 7rem);
+            width: 100%;
+            margin-top: 0.5rem;
+            border: 1px solid $dark-border;
+            border-radius: 1rem;
+
+            .home-page-chart-top-part {
+                display: flex;
+                justify-content: space-between;
+                height: 3rem;
+
+                select {
+                    height: 2rem;
+                    width: 10rem;
+                    font-size: 1.2rem;
+                    border: none;
+                    border-left: 1px solid $dark-border;
+                    border-bottom: 1px solid $dark-border;
+                    border-radius: 0 1rem 0 1rem;
+                }
+
+                h1 {
+                    font-size: 1.8rem;
+                    font-weight: 400;
+                    height: 3rem;
+                    padding: 0.5rem;
+                    margin-left: 0.5rem;
+                }
+            }
+
+            .home-page-chart {
+                @include flex-center-auto;
+                justify-content: space-between;
+                gap: 1rem;
+                height: 100%;
+                padding: 1rem;
+            }
+
+            .home-page-chart-legend-element {
+                @include flex-center-auto;
+                justify-content: space-between;
+                gap: 1rem;
+                width: 100%;
+                height: 2rem;
+            }
+
+            .home-page-chart-legend {
+                @include flex-column-center-center;
+                gap: 0.5rem;
+                width: 50%;
+                height: 100%;
+            }
+
+            .home-page-chart-doughnut {
+                @include flex-center-auto;
+                justify-content: right;
+                width: 50%;
+                height: 80%;
+            }
+
+            .home-page-chart-legend-key {
+                height: 100%;
+                aspect-ratio: 1/1;
+                border: 1px solid;
+                border-radius: 0.25rem;
+            }
+
+            .home-page-chart-legend-value {
+                text-align: right;
+                width: 7.5rem;
+            }
+
+            .home-page-chart-legend-label {
+               flex: 1;
+            }
+        }
+    }
+}
+
+.history-page {
+    width: 100%;
+    height: calc(100% - 4rem);
+
+    p {
+        font-size: 1.2rem;
+        text-align: center;
+    }
+
+    .history-page-list-date {
+        width: 9rem;
+    }
+
+    .history-page-list-method, .history-page-list-category {
+        width: 14rem;
+    }
+
+    .history-page-list-amount-top {
+        width: 12rem;
+    }
+
+    .history-page-list-amount {
+        width: 9rem;
+    }
+
+    .history-page-list-currency {
+        width: 3rem;
+    }
+
+    .history-page-list-description {
+        flex: 1;
+        font-size: 1rem;
+    }
+
+    .history-page-top {
+        display: flex;
+        justify-content: space-between;
+
+        select {
+            width: 10rem;
+            border: 1px solid $dark-border;
+            font-size: 1.2rem;
+            border-bottom: none;
+            border-radius: 1rem 1rem 0 0;
+        }
+    }
+
+    .history-page-list-container {
+        @include flex-column;
+        width: 100%;
+        height: calc(100% - 6rem);
+        border: 1px solid $dark-border;
+        border-top-left-radius: 1rem;  
+
+        .history-page-list-top-part {
+            @include flex-center-center;
+            padding: 0 3rem 0 0.25rem;
+            height: 3rem;
+            background-color: $dark-fill;
+            border-bottom: 1px solid $dark-border;
+            border-top-left-radius: 1rem;  
+        }
+
+        .history-page-list {
+            @include flex-column;
+            width: 100%;
+            flex: 1;
+            padding: 0.25rem;
+            gap: 0.25rem;
+            overflow-y: scroll;
+
+            &::-webkit-scrollbar {
+                display: none;
+            }
+            
+            .history-page-list-element {
+                @include flex-center-center;
+                @include ingnore-flex-changes;
+                height: 2rem;
+
+                button {
+                    width: 2rem;
+                    height: 2rem;
+                    background-color: transparent;
+                    border: none;
+
+                    img {
+                        width: 1.5rem;
+                        height: 1.5rem;
+                    }
+                }
+            }
+        }
+    }
+
+    .history-page-record-add {
+        @include flex-center-center;
+        width: 100%;
+        height: 3rem;
+        padding: 0 0.25rem;
+        border-radius: 0 0 1rem 1rem;
+        border: 1px solid $dark-border;
+        border-top: none;
+
+        button {
+            width: 2.5rem;
+            height: 2.5rem;
+            background-color: transparent;
+            border: none;
+            border-radius: 1rem;
+
+            img {
+                width: 2rem;
+                height: 2rem;
+            }
+        }
+
+        select, input {
+            height: 100%;
+            font-size: 1.2rem;
+            font-family: $default-font;
+            color: white;
+            text-align: center;
+            background-color: transparent;
+            border-radius: 0;
+            border: none;
+
+            &::placeholder {
+                color: $dark-border;
+            }
+        }
+
+        #date {
+            text-align: center;
+        }
+    }
+}
+
+.statistics-page {
+    @include flex-column;
+    width: 100%;
+    height: calc(100% - 4rem);
+
+    .statistics-page-elements {
+        width: 100%;
+        height: 100%;
+        display: flex;
+        flex-wrap: wrap;
+        justify-content: space-between;
+        gap: 0.5rem;
+
+        .statistics-page-element {
+            @include flex-column;
+            width: calc(50% - 0.25rem);
+            height: calc(50% - 0.25rem);
+            border: 1px solid $dark-border;
+            border-radius: 1rem;
+
+            .statistics-page-top {
+                display: flex;
+                justify-content: space-between;
+                height: 2rem;
+
+                select {
+                    height: 1.5rem;
+                    width: 7.5rem;
+                    font-size: 0.8rem;
+                    border: none;
+                    border-left: 1px solid $dark-border;
+                    border-bottom: 1px solid $dark-border;
+                    border-radius: 0 1rem 0 1rem;
+                }
+
+                p {
+                    height: 2rem;
+                    font-size: 1.2rem;
+                    padding: 0.25rem 1rem;
+                }
+            }
+        }
+
+        .statistics-page-doughnut-chart {
+            @include flex-center-auto;
+            justify-content: space-between;
+            height: 100%;
+            gap: 1rem;
+            padding: 1rem;
+        }
+
+        .statistics-page-doughnut-chart-legend {
+            @include flex-column-center-center;
+            gap: 0.25rem;
+            width: 50%;
+            height: 100%;
+        }
+
+        .statistics-page-doughnut-chart-legend-element {
+            @include flex-center-center;
+            justify-content: space-between;
+            gap: 1rem;
+            width: 100%;
+            height: 1.5rem;
+        }
+
+        .statistics-page-doughnut-chart-legend-key {
+            height: 100%;
+            aspect-ratio: 1/1;
+            border: 1px solid;
+            border-radius: 0.25rem;
+        }
+
+        .statistics-page-doughnut-chart-legend-value {
+            font-size: 0.8rem;
+            text-align: right;
+            width: 6rem;
+        }
+
+        .statistics-page-doughnut-chart-legend-label {
+            font-size: 0.8rem;
+            flex: 1;
+        }
+
+        .statistics-page-doughnut-chart-doughnut {
+            @include flex-center-auto;
+            justify-content: right;
+            width: 50%;
+            height: 80%;
+        }
+
+        .statistics-page-line-graph {
+            @include flex-center-center;
+            width: 100%;
+            height: calc(100% - 2rem);
+            padding: 0.25rem;
+        }
+    }
+}
+
+.wallet-page {
+    @include flex-column;
+    width: 100%;
+    height: calc(100% - 4rem);
+
+    .wallet {
+        display: flex;
+        flex-wrap: wrap;
+        gap: 1rem;
+        width: 100%;
+        overflow-y: scroll;
+        &::-webkit-scrollbar {
+            display: none;
+        }
+    }
+
+    .card {
+        @include flex-column;
+        justify-content: space-between;
+        height: 15rem;
+        aspect-ratio: 1.586/1;
+        background: linear-gradient(180deg, rgba(0, 0, 0, 0.35) -15%, rgba(255, 255, 255, 0.16) 50%, rgba(0, 0, 0, 0.31) 115%);
+        padding: 1rem;
+        border: 1px solid $dark-border;
+        border-radius: 1rem;
+
+        &:first-child {
+            div {
+                padding-bottom: 20%;
+            }
+            
+            p {
+                font-size: 2rem;
+            }
+
+            div {
+                p {
+                    &:first-of-type {
+                        font-size: 1.6rem;
+                        color: $dark-border;
+                    }
+
+                    &:last-of-type {
+                        font-size: 1.8rem;
+                    }
+                }
+            }
+        }
+
+        .card-balance {
+            height: 1rem;
+            color: $dark-border;
+        }
+
+        .card-balance-amount {
+            font-size: 1.2rem;
+            height: 1.2rem;
+        }
+
+        .card-lower-part {
+            @include flex-center-auto;
+            justify-content: space-between;
+            width: 100%;
+            height: 1.2rem;
+
+            img {
+                height: 100%;
+            }
+        }
+    }
+
+    .wallet-add {
+        position: absolute;
+        bottom: 2rem;
+        right: 2rem;
+        background-color: $dark-fill;
+        border: 1px solid $dark-border;
+        border-radius: 50%;
+        padding: 0.5rem;
+
+        img {
+            width: 2rem;
+            height: 2rem;
+        }
+    }
+
+    .card-add {
+        background-color: $dark-background;
+        position: absolute;
+        bottom: 2rem;
+        right: 2rem;
+        border: 1px solid $dark-border;
+        border-radius: 1rem;
+
+        input, select {
+            width: 10rem;
+            padding: 0.25rem;
+            font-family: $default-font;
+            font-size: 1rem;
+            color: white;
+            background-color: transparent;
+            border: none;
+
+            &::placeholder {
+                color: $dark-border;
+            }
+        }
+
+        div {
+            @include flex-center-center;
+            justify-content: space-between;
+
+            input, select {
+                font-size: 1.2rem;
+            }
+
+            button {
+                background-color: transparent;
+                border: none;
+                
+                img {
+                    width: 2rem;
+                    height: 2rem;
+                }
+            }
+        }
+    }
+}
+
+@media only screen and (max-width: 2400px) {
+    :root {
+        font-size: 28px;
+    }
+}
+@media only screen and (max-width: 2200px) {
+    :root {
+        font-size: 26px;
+    }
+}
+@media only screen and (max-width: 2000px) {
+    :root {
+        font-size: 24px;
+    }
+}
+@media only screen and (max-width: 1800px) {
+    :root {
+        font-size: 22px;
+    }
+}
+@media only screen and (max-width: 1600px) {
+    :root {
+        font-size: 20px;
+    }
+}
+@media only screen and (max-width: 1400px) {
+    :root {
+        font-size: 16px;
+    }
+}
+
+@media only screen and (max-width: 1200px) {
+    :root {
+        font-size: 14px;
+    }
+}
+
+@media only screen and (max-width: 1000px) {
+    :root {
+        font-size: 12px;
+    }
+}
+
+@media only screen and (max-width: 900px) {
+    :root {
+        font-size: 10px;
+    }
+}
+
+@media only screen and (max-width: 800px) {
+    :root {
+        font-size: 9px;
+    }
+}
+
+@media only screen and (max-width: 700px) {
+    :root {
+        font-size: 8px;
+    }
+}
+
+@media only screen and (max-width: 600px) {
+    :root {
+        font-size: 7px;
+    }
+}
+
+@media only screen and (max-width: 500px) {
+    :root {
+        font-size: 6px;
+    }
+}
+
+@media only screen and (max-width: 400px) {
+    :root {
+        font-size: 5px;
+    }
+}
+
+@media only screen and (orientation: portrait) {
+    :root {
+        font-size: 30px;
+    }
+
+    #app {
+        width: 100vw;
+        height: 100vh;
+        overflow-x: hidden;
+        border: 1px solid rebeccapurple;
+
+        &::-webkit-scrollbar {
+            display: none;
+        }
+    }
+
+    .side-bar {
+        width: 50%;
+    }
+
+    .page-name {
+        font-size: 2rem;
+    }
+
+    .home-page {
+        display: flex;
+        flex-direction: column-reverse;
+        justify-content: unset;
+        gap: none;
+        height: calc(100% - 4rem);
+        width: 100%;
+        flex: 1;
+
+        .home-page-list-container {
+            width: 100%;
+            height: 60%;
+        }
+
+        .home-page-right {
+            width: 100%;
+            height: 40%;
+
+            .basics {
+                .basic-card {
+                    height: 3rem;
+                    padding: 0.5rem;
+
+                    .basic-icon {
+                        width: 2rem;
+                        height: 2rem;
+                        padding: 0.5rem;
+                        border-radius: 0.5rem;
+                    }
+
+                    .basic-trend {
+                        height: 2rem;
+                        width: 2rem;
+                        padding: 0.5rem;
+                    }
+
+                    div {
+                        h1 {
+                            font-size: 0.8rem;
+                        }
+
+                        p {
+                            font-size: 0.5rem;
+                        }
+                    }
+                }
+            }
+
+            .home-page-chart-container {
+                width: 100%;
+                flex: 1;
+
+                .home-page-chart-top-part {
+                    width: 100%;
+                    height: 2rem;
+
+                    select {
+                        height: 1.6rem;
+                        font-size: 1rem;
+                    }
+
+                    h1 {
+                        font-size: 1rem;
+                        height: 1.6rem;
+                    }
+                }
+
+                .home-page-chart {
+                    width: 100%;
+                    flex: 1;
+                    padding: 0.5rem;
+                }
+
+                .home-page-chart-legend-element {
+                    height: 0.8rem;
+                    width: 100%;
+                }
+
+                .home-page-chart-legend {
+                    width: 50%;
+                    height: 100%;
+                }
+
+                .home-page-chart-doughnut {
+                    width: 50%;
+                    height: 90%;
+                }
+
+                .home-page-chart-legend-value {
+                    width: 5rem;
+                    font-size: 0.8rem;
+                }
+
+                .home-page-chart-legend-label {
+                    font-size: 0.8rem;
+                }
+            
+            }
+        }
+    }
+
+    .history-page {
+        .history-page-list-container {
+            width: 100%;
+        }
+    }
+
+    .statistics-page {
+        .statistics-page-elements {
+            .statistics-page-element {
+                width: 100%;
+            }
+        }
+    }
+
+    .wallet-page {
+        .wallet {
+            .card {
+                width: 100%;
+            }
+        }
+    }
+
+    .statistics-page {
+        .statistics-page-elements {
+            .statistics-page-element {
+                width: 100%;
+                height: 40%;
+
+                .statistics-page-doughnut-chart-legend-element {
+                    height: 1.4rem;
+                }
+
+                .statistics-page-line-graph {
+                    padding: 0.5rem;
+                }
+            }
+        }
+    }
+
+    .history-page {
+        .history-page-list-date {
+            font-size: 0.5rem;
+            width: 3.5rem;
+        }
+
+        .history-page-list-amount-top {
+            font-size: 0.5rem;
+            width: 5.5rem;
+        }
+
+        .history-page-list-amount {
+            font-size: 0.5rem;
+            width: 3.5rem;
+        }
+
+        .history-page-list-currency {
+            font-size: 0.5rem;
+            width: 1rem;
+        }
+
+        .history-page-list-description {
+            font-size: 0.4rem;
+        }
+
+        .history-page-list-method, .history-page-list-category {
+            font-size: 0.5rem;
+            width: 5rem;
+        }
+
+        .history-page-list-container {
+            .history-page-list-top-part {
+                padding: 0;
+                padding-right: 0.25rem;
+                height: 2rem;
+            }
+            .history-page-list {
+                gap: 0.2rem;
+                .history-page-list-element {
+                    height: 1rem;
+                    button {
+                        width: 1rem;
+                        height: 1rem;
+                        img {
+                            width: 0.75rem;
+                            height: 0.75rem;
+                        }
+                    
+                    }
+                }
+            }
+        }
+
+        .history-page-record-add {
+            height: 2rem;
+
+            select, input {
+                font-size: 0.5rem;
+            }
+
+            button {
+                width: 1.5rem;
+                height: 1.5rem;
+                img {
+                    width: 1rem;
+                    height: 1rem;
+                }
+            }
+        }
+    }
+
+    @media only screen and (min-width: 1350px) {
+        :root {
+            font-size: 50px;
+        }
+    }
+
+    @media only screen and (max-width: 1350px) {
+        :root {
+            font-size: 48px;
+        }
+    }
+
+    @media only screen and (max-width: 1300px) {
+        :root {
+            font-size: 46px;
+        }
+    }
+
+    @media only screen and (max-width: 1250px) {
+        :root {
+            font-size: 44px;
+        }
+    }
+    
+    @media only screen and (max-width: 1200px) {
+        :root {
+            font-size: 42px;
+        }
+    }
+
+    @media only screen and (max-width: 1150px) {
+        :root {
+            font-size: 40px;
+        }
+    }
+
+    @media only screen and (max-width: 1100px) {
+        :root {
+            font-size: 38px;
+        }
+    }
+
+    @media only screen and (max-width: 1050px) {
+        :root {
+            font-size: 36px;
+        }
+    }
+
+    @media only screen and (max-width: 1000px) {
+        :root {
+            font-size: 34px;
+        }
+    }
+
+    @media only screen and (max-width: 950px) {
+        :root {
+            font-size: 32px;
+        }
+    }
+
+    @media only screen and (max-width: 850px) {
+        :root {
+            font-size: 28px;
+        }
+    }
+
+    @media only screen and (max-width: 800px) {
+        :root {
+            font-size: 26px;
+        }
+    }
+
+    @media only screen and (max-width: 750px) {
+        :root {
+            font-size: 24px;
+        }
+    }
+
+    @media only screen and (max-width: 700px) {
+        :root {
+            font-size: 22px;
+        }
+    }
+
+    @media only screen and (max-width: 650px) {
+        :root {
+            font-size: 20px;
+        }
+    }
+
+    @media only screen and (max-width: 600px) {
+        :root {
+            font-size: 18px;
+        }
+    }
+
+    @media only screen and (max-width: 550px) {
+        :root {
+            font-size: 16px;
+        }
+    }
+
+    @media only screen and (max-width: 500px) {
+        :root {
+            font-size: 14px;
+        }
+    }
+
+    @media only screen and (max-width: 450px) {
+        :root {
+            font-size: 12px;
+        }
+    }
+
+    @media only screen and (max-width: 400px) {
+        :root {
+            font-size: 10px;
+        }
+    }
+
+    @media only screen and (max-width: 350px) {
+        :root {
+            font-size: 8px;
+        }
+    }
+
+    @media only screen and (max-width: 300px) {
+        :root {
+            font-size: 6px;
+        }
+    }
+}

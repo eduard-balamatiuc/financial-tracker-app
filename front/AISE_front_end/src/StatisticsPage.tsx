@@ -5,15 +5,15 @@ import Spendings from "./Spendings";
 
 function StatisticsPage() {
   return (
-    <>
-    <p className="page-name">Statistics</p>
-     <div className="statistics-page">
-        <Spendings/>
-        <Income/>
-        <IncomeAndSpendings/>
-        <Savings/>
+    <div className="statistics-page">
+      <h1 className="page-name">Statistics</h1>
+      <div className="statistics-page-elements">
+        <Spendings />
+        <Income />
+        <IncomeAndSpendings />
+        <Savings />
+      </div>
     </div>
-    </>
   );
 }
 
