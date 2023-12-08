@@ -46,12 +46,8 @@ const options = {
 };
 
 function IncomeAndSpendings() {
-  const [incomeData, setIncomeData] = useState(
-    moneyFlow.map((element) => element.income)
-  );
-  const [spendingData, setSpendingData] = useState(
-    moneyFlow.map((element) => element.spendings)
-  );
+  const incomeData = moneyFlow.map((element) => element.income);
+  const spendingData = moneyFlow.map((element) => element.spendings);
   const [timePeriod, setTimePeriod] = useState("y");
 
   const handleTimePeriodChange = (

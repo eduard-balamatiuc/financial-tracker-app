@@ -29,7 +29,7 @@ function HistoryPageListElement(props: HistoryPageListElementProps) {
       </p>
       <p className="history-page-list-currency">{props.currency}</p>
       <button onClick={handleDelete}>
-        <img src="src/assets/VectorDelete.png" alt="del" />
+        <img src="/VectorDelete.png" alt="del" />
       </button>
     </div>
   );

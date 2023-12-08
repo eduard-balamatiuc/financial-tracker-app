@@ -45,9 +45,7 @@ const options = {
 };
 
 function Savings() {
-  const [savingsData, setSavingsData] = useState(
-    savings.map((element) => element.amount)
-  );
+  const savingsData = savings.map((element) => element.amount);
   const [timePeriod, setTimePeriod] = useState("y");
 
   const handleTimePeriodChange = (

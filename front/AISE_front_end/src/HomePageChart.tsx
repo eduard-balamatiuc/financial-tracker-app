@@ -4,7 +4,7 @@ import { spendingsTotals } from "./JSON_exemples";
 
 function HomePageChart() {
   const [timePeriod, setTimePeriod] = useState("m");
-  const [chartData, setChartData] = useState(spendingsTotals);
+  const chartData = spendingsTotals;
 
   const handleTimePeriodChange = (
     event: React.ChangeEvent<HTMLSelectElement>

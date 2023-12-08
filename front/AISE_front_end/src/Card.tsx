@@ -10,11 +10,11 @@ function Card({ bankName, balance, currency, number, type }: CardProps) {
   const cardTypeImage = () => {
     switch (type) {
       case "visa":
-        return "src/assets/visa.png";
+        return "/visa.png";
       case "mastercard":
-        return "src/assets/mastercard.png";
+        return "/mastercard.png";
       case "amex":
-        return "src/assets/amex.png";
+        return "/amex.png";
     }
   };
 

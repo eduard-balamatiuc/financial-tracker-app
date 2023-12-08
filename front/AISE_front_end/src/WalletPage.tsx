@@ -4,7 +4,7 @@ import { walletContent } from "./JSON_exemples";
 import CardAdd from "./CardAdd";
 
 function WalletPage() {
-  const [cash, setCash] = useState(walletContent[0]);
+  const cash = walletContent[0];
   const [cards, setCards] = useState(walletContent.slice(1));
 
   const [add, setAdd] = useState(false);
@@ -42,7 +42,7 @@ function WalletPage() {
         ))}
       </div>
       <button className="wallet-add" onClick={handleButton}>
-        <img src="src/assets/VectorAdd.png" />
+        <img src="/VectorAdd.png" />
       </button>
       {add && <CardAdd addCard={handleAdd} />}
     </div>

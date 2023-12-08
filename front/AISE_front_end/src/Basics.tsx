@@ -2,10 +2,10 @@ import { basicInfo } from "./JSON_exemples";
 
 function Basics() {
   const icon = {
-    balance: "src/assets/VectorBalance.png",
-    savings: "src/assets/VectorSavings.png",
-    income: "src/assets/VectorIncome.png",
-    spendings: "src/assets/VectorSpendings.png",
+    balance: "/VectorBalance.png",
+    savings: "/VectorSavings.png",
+    income: "/VectorIncome.png",
+    spendings: "/VectorSpendings.png",
   };
   const info = basicInfo;
 
@@ -38,11 +38,7 @@ function Basics() {
           </div>
           <img
             className="basic-trend"
-            src={
-              item.type
-                ? "src/assets/VectorGood.png"
-                : "src/assets/VectorBad.png"
-            }
+            src={item.type ? "/VectorGood.png" : "/VectorBad.png"}
             alt=""
           />
         </div>

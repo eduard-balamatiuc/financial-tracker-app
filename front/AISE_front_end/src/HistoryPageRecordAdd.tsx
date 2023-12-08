@@ -151,7 +151,7 @@ function HistoryPageRecordAdd({ onAdd }: HistoryPageRecordAddProps) {
         <option value="$">$</option>
       </select>
       <button type="submit">
-        <img src="src/assets/VectorAdd.png" alt="add" />
+        <img src="/VectorAdd.png" alt="add" />
       </button>
     </form>
   );

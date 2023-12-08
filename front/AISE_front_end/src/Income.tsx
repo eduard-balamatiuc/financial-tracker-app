@@ -4,7 +4,7 @@ import { incomeTotals } from "./JSON_exemples";
 
 function Income() {
   const [timePeriod, setTimePeriod] = useState("m");
-  const [chartData, setChartData] = useState(incomeTotals);
+  const chartData = incomeTotals;
 
   const handleTimePeriodChange = (
     event: React.ChangeEvent<HTMLSelectElement>
