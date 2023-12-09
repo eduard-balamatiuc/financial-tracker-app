@@ -86,7 +86,7 @@ function CardAdd({ addCard }: CardAddProps) {
           <option value="$">$</option>
         </select>
         <button type="submit">
-          <img src="src/assets/VectorCardAdd.png" />
+          <img src="/VectorCardAdd.png" />
         </button>
       </div>
       <div>
